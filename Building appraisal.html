@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Appraisal</title>
+    <style>
+         *,
+        *:before,
+        *:after {
+        box-sizing: border-box;
+        }
+        body{
+            margin: 0;
+        }
+        .header {
+            background-color: #F2F3F4;
+            padding: 40px 70px;
+        }
+        .form{
+            background-color: #FDFEFE;
+            padding: 40px 70px;
+        }
+
+            /* Start Toggle switch */
+        .toggle {
+        cursor: pointer;
+        display: inline-block;
+        }
+
+        .toggle-switch {
+        display: inline-block;
+        background: #ccc;
+        border-radius: 16px;
+        width: 3.2rem;
+        height: 1.5rem;
+        position: relative;
+        vertical-align: middle;
+        transition: background 0.25s;
+        }
+
+        .toggle-switch:before, .toggle-switch:after {
+        content: "";
+        }
+
+        .toggle-switch:before {
+        display: block;
+        background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+        width: 1rem;
+        height: 1rem;
+        position: absolute;
+        top: 0.25rem;
+        left: 0.3rem;
+        transition: left 0.25s;
+        }
+
+        .toggle:hover .toggle-switch:before {
+        background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+        }
+
+        .toggle-checkbox:checked + .toggle-switch {
+        background: #f6bf54;
+        }
+
+        .toggle-checkbox:checked + .toggle-switch:before {
+        left: 30px;
+        }
+
+        .toggle-checkbox {
+        position: absolute;
+        visibility: hidden;
+        }
+
+        .toggle-label {
+        margin-left: 5px;
+        position: relative;
+        top: 2px;
+        }
+        /* End Toggle switch */
+
+        /* Start Checkbox toggle buttons */
+        .check-buttons{
+        display: inline;
+        max-width: 100px;
+        }
+
+        .check-buttons label{
+        display: inline-block;
+        background-color: #FDFEFE;
+        border: 1px solid #17202A;
+        color: #ABB2B9;
+        border-radius: 5px;
+        white-space: nowrap;
+        margin: 3px 3px;
+        user-select: none;
+        transition: all .2s;
+        }
+
+        .check-buttons label {
+        padding: 0.3rem 0.3rem;
+        cursor: pointer;
+        }
+
+        .check-buttons label::before {
+        display: inline-block;
+        text-rendering: auto;
+        font-size: 0.7rem;
+        transition: transform .3s ease-in-out;
+        }
+
+        .check-buttons input[type="checkbox"]:checked + label::before {
+        transform: rotate(-360deg);
+        transition: transform .3s ease-in-out;
+        }
+
+        .check-buttons input[type="checkbox"]:checked + label {
+        border: none;
+        background-color: #F4D03F;
+        color: #FDFEFE;
+        transition: all .2s;
+        }
+
+        .check-buttons input[type="checkbox"] {
+        display: absolute;
+        }
+
+        .check-buttons input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        }
+        /* End Checkbox toggle buttons */
+
+        .button {
+            background-color: #F4D03F;
+            font-weight: bold;
+            outline: none;
+            border: none;
+            color: #FDFEFE ;
+            border-radius: 5px;
+            padding: 12px 15px;
+            margin-bottom: 1rem;
+            margin-right: 10px;
+        }
+        .non-button{
+            background-color: #FDFEFE;
+            outline: none;
+            border: 1px solid #17202A;
+            color: #ABB2B9;
+            border-radius: 5px;
+            padding: 12px 15px;
+            margin-bottom: 1rem;
+            margin-right: 10px;
+        }
+        .label{
+            font-size: 0.4rem;
+            position: absolute;
+            left: 10px;
+            top: -7px;
+            background-color: #FDFEFE;
+            padding: 0px 2px;
+        }
+        .wrapper{
+            position: relative;
+        }
+        .input {
+            font-size: 1rem;
+            padding: 0.5rem 0.5rem;
+            color: black;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 6px;
+            outline: none;
+            width: 90%;
+            margin-bottom: 1rem;
+        }
+        .text{
+            border: none;
+            border-bottom: 4px solid #F4D03F;
+            background-color: #F2F3F4;
+            outline: none;
+            font-size: 1rem;
+            padding: 0.5rem 0.5rem;
+            border-bottom-left-radius: 1px;
+            border-bottom-right-radius: 1px;
+            margin-bottom: 1rem;
+            width: 90%;
+        }
+        .line{
+            border-bottom: 2px solid #F2F3F4;
+            margin: 1rem 1rem;
+        }
+        .flex{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .row{
+            display: grid;
+        }
+        .grid {
+        grid-row-gap: 1.5rem;
+        grid-column-gap: 0.5rem;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        }
+        .grid-col-2 {
+        grid-column: span 2;
+        }
+        .grid-col-3 {
+        grid-column: span 3;
+        }
+        .grid-col-4 {
+        grid-column: span 4;
+        }
+        .grid-col-5 {
+        grid-column: span 5;
+        }
+        .grid-col-6 {
+        grid-column: span 6;
+        }
+        .grid-col-7 {
+        grid-column: span 7;
+        }
+        .grid-col-8 {
+        grid-column: span 8;
+        }
+        .grid-col-9 {
+        grid-column: span 9;
+        }
+        .grid-col-10 {
+        grid-column: span 10;
+        }
+        .grid-col-11 {
+        grid-column: span 11;
+        }
+        .grid-col-12 {
+        grid-column: span 12;
+        }
+    </style>
+    </head>
+        <body>
+            <div class="header">
+                แบบสำรวจและประเมินราคาอาคาร
+            </div>
+            <div class="form">
+                <div class="row">
+                    <div class="grid">
+                        <div class="grid-col-3">
+                            <div>รายการสำรวจอาคาร</div>
+                        </div>
+                            <div class="grid-col-2">
+                                <div class="wrapper">
+                                    <label class="label">อาคารหลังที่</label>
+                                    <input  class="input" type="text">
+                                </div>
+                            </div>
+                            <div class="grid-col-2">
+                                <div class="wrapper">
+                                    <label class="label">บ้านเลขที่</label>
+                                    <input  class="input" type="text">
+                                </div>
+                            </div>
+                            <div class="grid-col-3">
+                                <div class="wrapper">
+                                    <label class="label">ก่อสร้างในโฉนดเลขที่</label>
+                                    <input  class="input" type="text">
+                                </div>
+                            </div>
+                            <div class="grid-col-2"></div>
+                        <div class="grid-col-12">
+                            <div class="line"></div>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="grid">
+                        <div class="grid-col-3">
+                            <div>ตำแหน่งก่อสร้าง</div>
+                        </div>
+                        <div class="grid-col-9">
+                            <div class="flex">
+                                <div class="grid-col-1">
+                                    <label class="toggle">
+                                      <input class="toggle-checkbox" type="checkbox">
+                                      <div class="toggle-switch"></div>
+                                      <span class="toggle-label">รุกล้ำ</span>
+                                    </label>
+                                </div>
+                                <div class="grid-col-1">
+                                    <div>ส่วน/ขนาด</div>
+                                </div>
+                                <div class="grid-col-2">
+                                    <input class="text" type="text" />
+                                </div>
+                                <div class="grid-col-5"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid-col-12">
+                            <div class="line"></div>
+                         </div>
+                    </div>
+                </div>
+                    
+                <div class="row">
+                    <div class="grid">
+                        <div class="grid-col-3">
+                            <div>สภาพการก่อสร้าง</div>
+                        </div>
+                        <div class="grid-col-9">
+                            <div class="flex">
+                                <div class="grid-col-1">
+                                    <div>ก่อสร้างแล้วเร็จ</div>
+                                </div>
+                                <div class="grid-col-2">
+                                    <input class="text" type="text" style="width: 100px";/> &nbsp &nbsp%
+                                </div>
+                                <div class="grid-col-1">งานที่ขาด</div>
+                                <div class="grid-col-4">
+                                    <div class="check-buttons">
+                                        <input type="checkbox" id="Structure"><label for="Structure">เกี่ยวกับโครงสร้าง</label>
+                                        <input type="checkbox" id="Non-Structure"><label for="Non-Structure">ไม่เกี่ยวกับโครงสร้าง</label>
+                                      </div>
+                                </div>           
+                            </div>
+                        </div>
+                        
+                        <div class="grid-col-12">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>   
+                    
+                <div class="row">
+                    <div class="grid">
+                        <div class="grid-col-3">
+                            <div>การใช้อยู่อาศัย</div>
+                        </div>
+                        <div class="grid-col-9">
+                            <div class="flex">
+                                <div class="grid-col-2">
+                                    <label class="toggle">
+                                      <input class="toggle-checkbox" type="checkbox">
+                                      <div class="toggle-switch"></div>
+                                      <span class="toggle-label">อยู่อาศัยได้</span>
+                                    </label>
+                                </div>
+                                <div class="grid-col-1">
+                                    <div>เนื่องจาก</div>
+                                </div>
+                                <div class="grid-col-3">
+                                    <input class="text" type="text" style="width: 450px";/>
+                                </div>
+                                <div class="grid-col-1">
+                                    <div class="wrapper">
+                                        <label class="label">อายุอาคาร</label>
+                                        <input  class="input" type="text" >
+                                    </div>
+                                </div>
+                                <div class="grid-col-3"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid-col-12">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="row">
+                    <div class="grid">
+                        <div class="grid-col-3">
+                            <div>ประเภทอาคาร</div>
+                        </div>
+                        <div class="grid-col-9">
+                            <div class="flex">
+                                <div class="grid-col-2">
+                                    <div class="check-buttons">
+                                        <input type="checkbox" id="Building"><label for="Building">ตึก</label>
+                                        <input type="checkbox" id="Half-woodBuilding"><label for="Half-woodBuilding">ตึกครึ่งไม้</label>
+                                        <input type="checkbox" id="WoodBuilding"><label for="WoodBuilding">ไม้</label>
+                                        <input type="checkbox" id="OtherBuilding"><label for="OtherBuilding">อื่นๆ</label>
+                                      </div>
+                                </div>
+                                <div class="grid-col-4">
+                                    <input class="text" type="text" style="width: 250px"; />
+                                </div>
+                                <div class="grid-col-3"></div>
+                            </div>
+                        </div>
+                        <div class="grid-col-12">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="grid">
+                        <div class="grid-col-3">
+                            <div>ลักษณะอาคาร</div>
+                        </div>
+                        <div class="grid-col-9">
+                            <div class="flex">
+                                <div class="grid-col-4">
+                                    <div class="check-buttons">
+                                        <input type="checkbox" id="House"><label for="House">บ้านเดี่ยว</label>
+                                        <input type="checkbox" id="TwinHouse"><label for="TwinHouse">บ้านแฝด</label>
+                                        <input type="checkbox" id="TownHouse"><label for="TownHouse">ทาวน์เฮ้าส์</label>
+                                        <input type="checkbox" id="ShopHouse"><label for="ShopHouse">อาคารพาณิชย์</label>
+                                        <input type="checkbox" id="OtherHouse"><label for="OtherHouse">อื่นๆ</label>
+                                      </div>
+                                </div>
+                                <div class="grid-col-2">
+                                    <div class="wrapper">
+                                        <label class="label">พื้นที่อยู่อาศัย %</label>
+                                        <input  class="input" type="text">
+                                    </div>
+                                </div>
+                                <div class="grid-col-3"></div>
+                                <div class="grid-col-3"></div>
+                                <div class="grid-col-6">
+                                    <div class="wrapper">
+                                        <label class="label">อื่นๆ</label>
+                                        <input  class="input" type="text" style="width: 750px; height: 100px";>
+                                    </div>
+                                </div>
+                                <div class="grid-col-3"></div>
+                            </div>
+                        </div>
+                        <div class="grid-col-12">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="row">
+                    <div class="grid">
+                        <div class="grid-col-3">
+                            <div>โครงหลังคา</div>
+                        </div>
+                        <div class="grid-col-9">
+                            <div class="flex">
+                                <div class="grid-col-2">
+                                    <div class="check-buttons">
+                                        <input type="checkbox" id="ReinforcedConcrete"><label for="ReinforcedConcrete">ค.ส.ล</label>
+                                        <input type="checkbox" id="Steel"><label for="Steel">เหล็ก</label>
+                                        <input type="checkbox" id="Wood"><label for="Wood">ไม้</label>
+                                        <input type="checkbox" id="OtherRoofFrame"><label for="OtherRoofFrame">อื่นๆ</label>
+                                      </div>
+                                </div>
+                                <div class="grid-col-3">
+                                    <input class="text" type="text" style="width: 250px";/>
+                                </div>
+                                <div class="grid-col-4"></div>        
+                            </div>
+                        </div>
+                        
+                        <div class="grid-col-12">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="row">
+                    <div class="grid">
+                        <div class="grid-col-3">
+                            <div>หลังคา</div>
+                        </div>
+                        <div class="grid-col-9">
+                            <div class="flex">
+                                <div class="grid-col-4">
+                                    <div class="check-buttons">
+                                        <input type="checkbox" id="ConcreteRoofTile"><label for="ConcreteRoofTile">กระเบื้อง(คอนกรีต)</label>
+                                        <input type="checkbox" id="CarvedTile"><label for="CarvedTile">กระเบื้องลอน</label>
+                                        <input type="checkbox" id="DeckPlate"><label for="DeckPlate">ดาดฟ้า ค.ส.ล.</label>
+                                        <input type="checkbox" id="VinylRoof"><label for="VinylRoof">ไวนิล</label>
+                                      </div>
+                                </div>
+                                <div class="grid-col-5"></div>
+                                <div class="grid-col-3"></div>
+                                <div class="grid-col-3">
+                                    <div class="check-buttons">
+                                        <input type="checkbox" id="ClayTile"><label for="ClayTile">กระเบื้องดินเผา</label>
+                                        <input type="checkbox" id="GalvanizedRoof"><label for="GalvanizedRoof">สังกะสี</label>
+                                        <input type="checkbox" id="MetalRoof"><label for="MetalRoof">เมทัลชีท</label>
+                                        <input type="checkbox" id="OtherRoof"><label for="OtherRoof">อื่นๆ</label>
+                                      </div>
+                                </div>
+                                <div class="grid-col-3">
+                                    <input class="text" type="text" />
+                                </div>
+                                <div class="grid-col-3"></div>        
+                            </div>
+                        </div>
+                        
+                        <div class="grid-col-12">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+        </body>
+    </html>

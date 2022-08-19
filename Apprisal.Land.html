@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apprisal Land</title>
+  <style>
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
+
+    /* Start Toggle switch */
+    .toggle {
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .toggle-switch {
+      display: inline-block;
+      background: #ccc;
+      border-radius: 16px;
+      width: 3.2rem;
+      height: 1.5rem;
+      position: relative;
+      vertical-align: middle;
+      transition: background 0.25s;
+    }
+
+    .toggle-switch:before, .toggle-switch:after {
+      content: "";
+    }
+
+    .toggle-switch:before {
+      display: block;
+      background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+      width: 1rem;
+      height: 1rem;
+      position: absolute;
+      top: 0.25rem;
+      left: 0.3rem;
+      transition: left 0.25s;
+    }
+
+    .toggle:hover .toggle-switch:before {
+      background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .toggle-checkbox:checked + .toggle-switch {
+      background: #f6bf54;
+    }
+
+    .toggle-checkbox:checked + .toggle-switch:before {
+      left: 30px;
+    }
+
+    .toggle-checkbox {
+      position: absolute;
+      visibility: hidden;
+    }
+
+    .toggle-label {
+      margin-left: 5px;
+      position: relative;
+      top: 2px;
+    }
+    /* End Toggle switch */
+
+    /* Start Checkbox toggle buttons */
+    .check-buttons{
+      display: inline;
+      max-width: 100px;
+    }
+
+    .check-buttons label{
+      display: inline-block;
+      background-color: rgba(255, 255, 255, .9);
+      border: 2px solid rgba(139, 139, 139, .3);
+      color: #585858;
+      border-radius: 10px;
+      white-space: nowrap;
+      margin: 3px 3px;
+      user-select: none;
+      transition: all .2s;
+    }
+
+    .check-buttons label {
+      padding: 0.3rem 0.3rem;
+      cursor: pointer;
+    }
+
+    .check-buttons label::before {
+      display: inline-block;
+      text-rendering: auto;
+      font-size: 0.7rem;
+      transition: transform .3s ease-in-out;
+    }
+
+    .check-buttons input[type="checkbox"]:checked + label::before {
+      transform: rotate(-360deg);
+      transition: transform .3s ease-in-out;
+    }
+
+    .check-buttons input[type="checkbox"]:checked + label {
+      border: 2px solid #f6bf54;
+      background-color: #ffe08b;
+      color: #fff;
+      transition: all .2s;
+    }
+
+    .check-buttons input[type="checkbox"] {
+      display: absolute;
+    }
+
+    .check-buttons input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+    }
+    /* End Checkbox toggle buttons */
+
+    .header {
+      background-color: rgb(219, 219, 219);
+      font-size: 1.2rem;
+      color: rgb(112, 110, 110);
+      padding: 1rem 1rem;
+    }
+
+    .form {
+      background-color: white;
+      padding: 1rem 1rem;
+    }
+
+    /* Start Grid */
+    .grid {
+      grid-row-gap: 1.5rem;
+      grid-column-gap: 1rem;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .grid-col-1 {
+      grid-column: span 1;
+    }
+
+    .grid-col-2 {
+      grid-column: span 2;
+    }
+
+    .grid-col-3 {
+      grid-column: span 3;
+    }
+
+    .grid-col-4 {
+      grid-column: span 4;
+    }
+
+    .grid-col-5 {
+      grid-column: span 5;
+    }
+
+    .grid-col-6 {
+      grid-column: span 6;
+    }
+
+    .grid-col-7 {
+      grid-column: span 7;
+    }
+
+    .grid-col-8 {
+      grid-column: span 8;
+    }
+
+    .grid-col-8-row-5 {
+      grid-column: span 8;
+      grid-row: span 5;
+    }
+
+    .grid-col-9 {
+      grid-column: span 9;
+    }
+
+    .grid-col-10 {
+      grid-column: span 10;
+    }
+
+    .grid-col-12 {
+      grid-column: span 11;
+    }
+
+    .grid-col-12 {
+      grid-column: span 12;
+    }
+    /* End Grid */
+
+    /* Used for normal label */
+    .label {
+      font-size: 1rem;
+      border: none;
+      outline: none;
+      background-color: white;
+      color: black;
+      padding: 1rem 0.5rem;
+    }
+
+    .input {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.5rem;
+      color: black;
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 6px;
+      outline: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    .input:focus {
+      border: 1px solid #f6bf54;
+    }
+
+    .freespace-input {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.5rem;
+      color: black;
+      background-color: rgb(230, 227, 227);
+      border: 1px solid black;
+      border-radius: 6px;
+      outline: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    .special-input {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.5rem;
+      color: black;
+      background-color: rgb(221, 221, 221);
+      border: none;
+      border-bottom: 0.4rem solid #a3a3a3;
+      outline: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    .special-input:focus {
+      border: 1px solid #f6bf54;
+      border-bottom: 0.4rem solid #f6bf54;
+    }
+
+    .label-topic {
+      font-size: 0.7rem;
+      position: absolute;
+      left: 15px;
+      top: -8px;
+      background-color: white;
+      padding: 0px 2px;
+    }
+
+    .select {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.5rem;
+      color: black;
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 6px;
+      outline: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    .select:focus {
+      border: 1px solid #f6bf54;
+    }
+
+    .wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .line {
+      border-bottom: 1px solid rgb(150, 147, 147);
+      margin: 1rem 1rem;
+    }
+    
+    .save {
+      color: white;
+      background-color: #f6bf54;
+      font-size: 0.8rem;
+      border: none;
+      border-radius: 6px;
+      outline: none;
+      padding: 6px 10px;
+    }
+
+    .cancel {
+      color: rgb(128, 125, 125);
+      background-color: white;
+      font-size: 0.8rem;
+      border: 1px solid rgb(128, 125, 125);
+      border-radius: 6px;
+      outline: none;
+      padding: 6px 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="header">แบบสำรวจและประเมินราคาที่ดิน - อาคาร</div>
+  <div class="form">
+    <div class="grid">
+
+      <div class="grid-col-3">
+        <label class="label">รายการสำรวจที่ดิน</label>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">จังหวัด</div>
+          <select class="select">
+            <option value="0">Please Select . .</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-col-3">
+        <input class="input" type="text"/>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">ตำแหน่งพิกัดละติจูด</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">อำเภอ / เขต</div>
+          <select class="select">
+            <option value="0">Please Select . .</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-col-3">
+        <input class="input" type="text"/>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">ตำแหน่งพิกัดลองติจูด</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">ตำบล / แขวง</div>
+          <select class="select">
+            <option value="0">Please Select . .</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-col-3">
+        <input class="input" type="text"/>
+      </div>
+      <div class="grid-col-4"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">เลขที่โฉนด</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">เลขที่ดิน</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">ระวาง</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">เนื้อที่ดิน(ตารางวา)</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-3">
+        <div class="wrapper">
+          <label class="label-topic">ระวางรูปถ่ายทางอากาศชื่อ</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">หมายเลข</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">แผ่นที่</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">ทะเบียนเลขที่</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">เล่มที่</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-3">
+        <div class="wrapper">
+          <label class="label-topic">หน้าที่</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">หน้าสำรวจ</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">
+        <label class="label">ตำแหน่งที่ดิน</label>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">ตำแหน่งที่ดิน</div>
+          <select class="select">
+            <option value="0">Please Select . .</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">ตรวจจาก</div>
+          <select class="select">
+            <option value="0">Please Select . .</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-col-3">
+        <div class="wrapper">
+          <label class="label-topic">อื่นๆ</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-3">
+        <div class="wrapper">
+          <label class="label-topic">ตั้งอยู่บนถนน</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-3">
+        <div class="wrapper">
+          <label class="label-topic">แยกเข้าซอย</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <label class="label-topic">ระยะทาง(เมตร)</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">
+        <label class="label">สภาพที่ดิน</label>
+      </div>
+      <div class="grid-col-3">
+        <div class="wrapper">
+          <div class="label-topic">สภาพที่ดิน</div>
+          <select class="select">
+            <option value="0">Please Select . .</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-col-3">
+        <div class="wrapper">
+          <label class="label-topic">ระดับดิน(ซม.)</label>
+          <input class="input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-3"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">
+        <label class="label">สิ่งปลูกสร้าง</label>
+      </div>
+      <div class="grid-col-8-row-5">
+        <input class="freespace-input" type="text"/>
+      </div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">
+        <label class="label">ถนนผ่านหน้าที่ดิน</label>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">ถนนผ่านหน้าที่ดิน</div>
+          <select class="select">
+            <option value="0">Please Select . .</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-col-3">
+        <input class="input" type="text"/>
+      </div>
+      <div class="grid-col-4"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">ผิวจราจรกว้าง(เมตร)</div>
+          <input class="input"/>
+        </div>
+      </div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">เขตทาง(เมตร)</div>
+          <input class="input"/>
+        </div>
+      </div>
+      <div class="grid-col-5"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">รถยนต์เข้า-ออก</div>
+          <select class="select">
+            <option value="0">Please Select . .</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-col-7"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">ผิวจราจร</div>
+      <div class="grid-col-2">
+        <div class="wrapper">
+          <div class="label-topic">ลักษณะผิวจราจร</div>
+          <select class="select">
+            <option value="0">Please Select . .</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-col-7"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">สาธารณูปโภค</div>
+      <div class="grid-col-4">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxOne"><label for="checkboxOne">ไฟฟ้า</label>
+          <input type="checkbox" id="checkboxTwo"><label for="checkboxTwo">ประปา</label>
+          <input type="checkbox" id="checkboxThree"><label for="checkboxThree">ท่อระบายน้ำ</label>
+          <input type="checkbox" id="checkboxFour"><label for="checkboxFour">ไฟฟ้าถนน</label>
+          <input type="checkbox" id="checkboxFive"><label for="checkboxFive">อื่นๆ</label>
+        </div>
+      </div>
+      <div class="grid-col-4">
+        <input class="special-input" type="text">
+      </div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">ทางเข้า-ออก</div>
+      <div class="grid-col-9">
+        <label class="toggle">
+          <input class="toggle-checkbox" type="checkbox">
+          <div class="toggle-switch"></div>
+          <span class="toggle-label">มีปัญหา</span>
+        </label>
+      </div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-8-row-5">
+        <div class="wrapper">
+          <label class="label-topic">เงื่อนไข</label>
+          <input class="freespace-input" type="text"/>
+        </div>
+      </div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">ข้อจำกัด</div>
+      <div class="grid-col-3">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxSix"><label for="checkboxSix">อยู่ในระวางเวนคืน</label>
+          <input type="checkbox" id="checkboxSeven"><label for="checkboxSeven">อยู่ในแนวเวนคืน</label>
+        </div>
+      </div>
+      <div class="grid-col-1">ตาม พรฏ/พรบ</div>
+      <div class="grid-col-4">
+        <input class="special-input" type="text">
+      </div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-4">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxEight"><label for="checkboxEight">ถูกรุกล้ำ/ใช้เพื่อบุคคลอื่น/ตัดเนื้อที่ประเมินเนื่องจากสาเหตุอื่น</label>
+        </div>
+      </div>
+      <div class="grid-col-1">เนื้อที่</div>
+      <div class="grid-col-2">
+        <input class="special-input" type="text">
+      </div>
+      <div class="grid-col-1">ตารางวา</div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-4">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxNine" checked><label for="checkboxNine">ถูกรุกล้ำ/ใช้เพื่อบุคคลอื่น/ตัดเนื้อที่ประเมินเนื่องจากสาเหตุอื่น</label>
+        </div>
+      </div>
+      <div class="grid-col-5"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-5">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxTen"><label for="checkboxTen">จุดสิ้นสุดสาธารณูปโภคไฟฟ้าถาวร อยู่ห่างหลักประกันไปตามแนวถนน/ซอย</label>
+        </div>
+      </div>
+      <div class="grid-col-1">ระยะทางประมาณ</div>
+      <div class="grid-col-1">
+        <input class="special-input" type="text">
+      </div>
+      <div class="grid-col-1">เมตร</div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-5">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxEleven"><label for="checkboxEleven">รูปร่างลักษณะที่ดินหลักประกัน ไม่สามารถนำรถยนต์เข้าไปในที่ดินได้</label>
+        </div>
+      </div>
+      <div class="grid-col-4"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-5">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxTwelve"><label for="checkboxTwelve">อยู่ในเขตป่าฯ / อยู่ในเขต สปก. / อุทยานฯ</label>
+        </div>
+      </div>
+      <div class="grid-col-4"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">การรอนสิทธิ์อื่นๆ</div>
+      <div class="grid-col-4">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxThirteen"><label for="checkboxThirteen">อยู่ในแนวสายไฟฟ้าแรงสูง</label>
+          <input type="checkbox" id="checkboxFourteen"><label for="checkboxFourteen">แนวรถไฟฟ้าใต้ดิน</label>
+          <input type="checkbox" id="checkboxFifteen"><label for="checkboxFifteen">อื่นๆ</label>
+        </div>
+      </div>
+      <div class="grid-col-4">
+        <input class="special-input" type="text">
+      </div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">ลักษณะที่ดิน</div>
+      <div class="grid-col-5">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxSixteen"><label for="checkboxSixteen">จัดสรรโครงการใหม่</label>
+          <input type="checkbox" id="checkboxSeventeen"><label for="checkboxSeventeen">จัดสรรโครงการเก่า</label>
+          <input type="checkbox" id="checkboxEightteen"><label for="checkboxEightteen">ไม่จัดสรร</label>
+        </div>
+      </div>
+      <div class="grid-col-4"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-col-3">
+        <label class="label">หมายเหตุ</label>
+      </div>
+      <div class="grid-col-8-row-5">
+        <input class="freespace-input" type="text"/>
+      </div>
+      <div class="grid-col-1"></div>
+
+      <div class="grid-col-12">
+        <div class="line"></div>
+      </div>
+      
+      <div class="grid-col-12">
+        <div class="header">รายการประเมินราคาหลักประกัน</div>
+      </div>
+
+      <div class="grid-col-3">เนื้อที่ ที่ดินประเมิน</div>
+      <div class="grid-col-3">
+        <input class="input">
+      </div>
+      <div class="grid-col-6"></div>
+
+      <div class="grid-col-3">ราคาประเมินต่อตารางวา</div>
+      <div class="grid-col-3">
+        <input class="input">
+      </div>
+      <div class="grid-col-6"></div>
+
+      <div class="grid-col-3">ราคาที่ดิน</div>
+      <div class="grid-col-3">
+        <input class="input">
+      </div>
+      <div class="grid-col-6"></div>
+
+      <div class="grid-col-3">ราคาอาคาร</div>
+      <div class="grid-col-3">
+        <input class="input">
+      </div>
+      <div class="grid-col-6"></div>
+
+      <div class="grid-col-3">มูลค่ารวมที่ดินอาคาร</div>
+      <div class="grid-col-3">
+        <input class="input">
+      </div>
+      <div class="grid-col-6"></div>
+
+      <div class="grid-col-3">ราคารับเป็นหลักประกัน</div>
+      <div class="grid-col-3">
+        <input class="input">
+      </div>
+      <div class="grid-col-6"></div>
+
+      <div class="grid-col-3"></div>
+      <div class="grid-col-3">
+        <div class="check-buttons">
+          <input type="checkbox" id="checkboxNineteen"><label for="checkboxNineteen">วิธีต้นทุน</label>
+          <input type="checkbox" id="checkboxTwenty"><label for="checkboxTwenty">วิธีเปรียบเทียบราคา</label>
+        </div>
+      </div>
+      <div class="grid-col-6"></div>
+
+      <div class="grid-col-10"></div>
+      <div class="grid-col-1">
+        <button class="cancel">Cancel</button>
+      </div>
+      <div class="grid-col-1">
+        <button class="save">Save</button>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
